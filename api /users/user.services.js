@@ -16,10 +16,6 @@ function createUser(user) {
   return User.create(user);
 }
 
-function updateUser(id, user) {
-  return User.findByIdAndUpdate(id, user, { new: true });
-}
-
 function deleteUser(id) {
   return User.findByIdAndRemove(id);
 }
@@ -28,7 +24,6 @@ module.exports = {
   getAllUsers,
   getSingleUser,
   createUser,
-  updateUser,
   deleteUser,
   findUserByEmail,
 };
