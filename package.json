@@ -1,0 +1,22 @@
+{
+  "name": "backendassesment",
+  "version": "1.0.0",
+  "description": "Backend assesment from Make it Real's Bootcamp Top program  ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdrianVilla1504/BackendAssesment.git"
+  },
+  "keywords": [
+    "API"
+  ],
+  "author": "AdrianVilla",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AdrianVilla1504/BackendAssesment/issues"
+  },
+  "homepage": "https://github.com/AdrianVilla1504/BackendAssesment#readme"
+}
