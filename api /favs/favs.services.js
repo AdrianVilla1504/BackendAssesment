@@ -1,20 +1,24 @@
-const mongoose = require('mongoose');
+const Favs = require('./favs.model');
 
-const favsSchema = new mongoose.Schema({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  link: {
-    type: String,
-    required:true,
-  }
-}, { timestamps : true });
+function getAllFavs() {
+  return Favs.find({});
+}
 
-const favs = mongoose.model('fav', FavsSchema);
+function getSingleListFav(id){
+  return Favs.findById(id);
+}
 
-module.exports = Favs;
+function createFav(fav) {
+  return Favs.create(fav);
+}
+
+function deleteFav(id) {
+  return Favs.findByIdAndRemove(id);
+}
+
+module.exports = {
+  getAllFavs,
+  getSingleListFav,
+  createFav,
+  deleteFav,
+};
