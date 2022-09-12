@@ -23,7 +23,7 @@ function deleteUser(id) {
 module.exports = {
   getAllUsers,
   getSingleUser,
+  findUserByEmail,
   createUser,
   deleteUser,
-  findUserByEmail,
 };
