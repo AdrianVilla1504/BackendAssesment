@@ -1,53 +1,19 @@
-const mongoose = require('mongoose');
+const Router = require('express');
+const userValidator = require('./joi.validation/joi.validator');
+const {
+  getAllUsersHandler,
+  getSingleUserHandler,
+  createUserHandler,
+  deleteUserHandler,
+  updateUserHandler,
+} = require('./users.controller');
 
-const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 8,
-  },
-  passwordResetToken: String,
-  passwordResetExpires: Date,
-}, { timestamps: true });
+const router = Router();
 
-UserSchema.pre('save', async function save(next) {
-  const user = this;
+router.get('/', getAllUsersHandler);
+router.post('/', userValidator, createUserHandler);
+router.get('/:id', getSingleUserHandler);
+router.patch('/:id', updateUserHandler);
+router.delete('/:id', deleteUserHandler);
 
-  try {
-    if (!user.isModified('password')) {
-      next();
-    }
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(user.password, salt);
-
-    user.password = hash;
-  } catch (error) {
-    next(error);
-  }
-});
-
-UserSchema.methods.comparePassword = async function comparePassword(password, next) {
-  const user = this;
-
-  try {
-    const isMatch = await bcrypt.compare(password, user.password);
-    return isMatch;
-  } catch (error) {
-    next(error);
-    return false;
-  }
-};
-
-const User = mongoose.model('user', UserSchema);
-
-module.exports = User;
+module.exports = router;
