@@ -15,6 +15,20 @@ const favsSchema = new mongoose.Schema({
   }
 }, { timestamps : true });
 
-const favs = mongoose.model('fav', favsSchema);
+const favsList = new mongoose.Schema({
+  name: {
+    type: String,
+    require: true,
+    unique: true,
+  },
+  favs: [Favschema],
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    require: true,
+  },
+}, { timestamps: true });
+
+const favs = mongoose.model('favs', favsList);
 
 module.exports = favs;
