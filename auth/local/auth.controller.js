@@ -17,6 +17,7 @@ async function loginUserHandler(req, res) {
     const token = await signToken({ email: user.email });
     return res.status(200).json({ token, profile: user.profile });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ error });
   }
 }

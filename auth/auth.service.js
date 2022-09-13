@@ -4,7 +4,7 @@ const { findUserByEmail } = require('../api/users/users.services');
 async function signToken(payload) {
   const token = await jsonToken.sign(
     payload,
-    process.env.JSW_KET_WORD,
+    process.env.JWT,
     { expiresIn: '1h' },
   );
 
@@ -13,7 +13,7 @@ async function signToken(payload) {
 
 async function verfyToken(token) {
   try {
-    const payload = await jsonToken.verify(token, process.env.JSW_KET_WORD);
+    const payload = await jsonToken.verify(token, process.env.JWT);
     return payload;
   } catch {
     return null;

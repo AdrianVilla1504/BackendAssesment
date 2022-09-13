@@ -1,4 +1,5 @@
 const Router = require('express');
+const { isAuthenticated } = require('../../auth/auth.service');
 
 const {
   getAllFavsHandler,
@@ -9,9 +10,9 @@ const {
 
 const router = Router();
 
-router.get('/', getAllFavsHandler);
-router.get('/:id', getSingleFavHandler);
-router.post('/', createFavHandler);
-router.delete('/:id', deleteFavHandler);
+router.get('/',	isAuthenticated, getAllFavsHandler);
+router.get('/:id', isAuthenticated, getSingleFavHandler);
+router.post('/', isAuthenticated, createFavHandler);
+router.delete('/:id', isAuthenticated, deleteFavHandler);
 
 module.exports = router;

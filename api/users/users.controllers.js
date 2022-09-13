@@ -50,7 +50,6 @@ async function createUserHandler(req, res) {
     userData.passwordResetToken = hash;
     userData.passwordResetExpires = Date.now() + 3_600_000 * 24;
     const user = await createUser(userData);
-    await sendNodemailer(message);
     return res.status(201).json(user);
   } catch (error) {
     return res.status(500).json({ error: error.message });

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/AdrianVilla1504/BackendAssesment#readme",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "crypto": "^1.0.1",
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
