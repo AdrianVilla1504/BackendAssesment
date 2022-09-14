@@ -9,6 +9,8 @@ const app = express();
 
 const PORT = process.env.PORT || 8080;
 
+const swagger = require('./config/swagger');
+
 app.listen(PORT, async () => {
   expressConfiguration(app);
 
@@ -17,4 +19,7 @@ app.listen(PORT, async () => {
   routes(app);
 
   console.log(`The server is running on port http://localhost:${PORT}`);
+
+  swagger( app, PORT);
+
 })

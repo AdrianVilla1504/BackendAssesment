@@ -22,7 +22,7 @@ const favsList = new mongoose.Schema({
     unique: true,
   },
   favs: [favsSchema],
-  user: {
+  creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
     require: true,
