@@ -4,7 +4,6 @@
   "description": "Backend assesment from Make it Real's Bootcamp Top program  ",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
     "dev": "nodemon index.js",
     "start": "node index.js"
   },
