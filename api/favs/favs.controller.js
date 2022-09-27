@@ -1,7 +1,9 @@
 const {
   getAllFavs,
   getSingleListFav,
-  createFav,
+  createNewFavList,
+  createSingleFav,
+  findFavListAndUpdate,
   deleteFav,
 } = require('./favs.services');
 
@@ -45,7 +47,6 @@ async function getAllFavsHandler(req, res) {
     return res.status(500).json({error});
   }
 }
-
 
 /**
  * @openapi
@@ -144,12 +145,12 @@ async function getSingleFavHandler (req, res) {
  *         $ref: '#/components/schemas/NotImplemented'
  */
 
-async function createFavHandler (req, res) {
+async function createFavListHandler (req, res) {
   const FavData = req.body;
   const { _id } = req.user;
   console.log(FavData);
   try {
-    const fav = await createFav({...FavData, creator: _id});
+    const fav = await createNewFavList({...FavData, creator: _id});
     return res.status(201).json(fav);
   } catch (error) {
     console.log('ERROR:', error);
@@ -213,6 +214,6 @@ async function deleteFavHandler(req, res) {
 module.exports = {
   getAllFavsHandler,
   getSingleFavHandler,
-  createFavHandler,
+  createFavListHandler,
   deleteFavHandler,
 }

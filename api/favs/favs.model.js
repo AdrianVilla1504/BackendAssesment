@@ -29,6 +29,7 @@ const favsList = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-const favs = mongoose.model('favs', favsList);
+const Favs = mongoose.model('favs', favsList);
+const singleFav = mongoose.model('fav', favsSchema);
 
-module.exports = favs;
+module.exports =  { Favs, singleFav };
