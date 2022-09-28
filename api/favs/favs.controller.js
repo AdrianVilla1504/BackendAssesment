@@ -173,7 +173,7 @@ async function createFavOnList(req, res) {
     await favList.save();
     return res.status(201).json(favList);
   } catch (error) {
-    console.log(error);
+    console.log("ERROR SERVER RESPONSE: ", error);
     return res.status(500).json({ error });
   }
 }
