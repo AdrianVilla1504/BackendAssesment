@@ -1,4 +1,6 @@
 const Router = require('express');
+const { validateUser } = require('./users.joischema');
+
 const {
   getAllUsersHandler,
   getSingleUserHandler,
@@ -9,7 +11,7 @@ const {
 const router = Router();
 
 router.get('/', getAllUsersHandler);
-router.post('/', createUserHandler);
+router.post('/', validateUser, createUserHandler);
 router.get('/:id', getSingleUserHandler);
 router.delete('/:id', deleteUserHandler);
 
