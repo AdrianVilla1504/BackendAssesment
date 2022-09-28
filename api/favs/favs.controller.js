@@ -1,7 +1,7 @@
 const {
   getAllFavs,
   getSingleListFav,
-  createFav,
+  createNewFavList,
   deleteFav,
 } = require('./favs.services');
 
@@ -46,7 +46,6 @@ async function getAllFavsHandler(req, res) {
   }
 }
 
-
 /**
  * @openapi
  * /api/favs/{id}:
@@ -85,9 +84,9 @@ async function getAllFavsHandler(req, res) {
 
 
 async function getSingleFavHandler (req, res) {
-  const { id } = req.params;
+  const { _id } = req.params;
   try {
-    const fav = await getSingleListFav(id);
+    const fav = await getSingleListFav(_id);
 
     if (!fav) {
       return res.status(404).json({message: 'Fav List not found'});
@@ -144,16 +143,38 @@ async function getSingleFavHandler (req, res) {
  *         $ref: '#/components/schemas/NotImplemented'
  */
 
-async function createFavHandler (req, res) {
-  const FavData = req.body;
+async function createFavListHandler (req, res) {
+  const FavListData = req.body;
   const { _id } = req.user;
-  console.log(FavData);
+  console.log(FavListData);
   try {
-    const fav = await createFav({...FavData, creator: _id});
-    return res.status(201).json(fav);
+    const favList = await createNewFavList({...FavListData, creator: _id});
+    return res.status(201).json(favList);
   } catch (error) {
     console.log('ERROR:', error);
     return res.status(501).json({ error })
+  }
+}
+
+async function createFavOnList(req, res) {
+  const user = await req.user;
+  const {idFavsList} = req.params;
+  const itemData = req.body;
+  try {
+    const favList = await getSingleListFav(idFavsList);
+
+    if (!favList) {
+      return res.status(404).json({ error: 'Favs List not found' });
+    }
+    if (favList.creator.toString() !== user._id.toString()) {
+      return res.status(403).json({ error: 'You are unauthorized to edit this list' });
+    }
+    favList.favs.push(itemData);
+    await favList.save();
+    return res.status(201).json(favList);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error });
   }
 }
 
@@ -213,6 +234,7 @@ async function deleteFavHandler(req, res) {
 module.exports = {
   getAllFavsHandler,
   getSingleFavHandler,
-  createFavHandler,
+  createFavListHandler,
+  createFavOnList,
   deleteFavHandler,
 }
