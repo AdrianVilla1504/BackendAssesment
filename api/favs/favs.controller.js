@@ -86,9 +86,9 @@ async function getAllFavsHandler(req, res) {
 
 
 async function getSingleFavHandler (req, res) {
-  const { id } = req.params;
+  const { _id } = req.params;
   try {
-    const fav = await getSingleListFav(id);
+    const fav = await getSingleListFav(_id);
 
     if (!fav) {
       return res.status(404).json({message: 'Fav List not found'});
@@ -146,15 +146,40 @@ async function getSingleFavHandler (req, res) {
  */
 
 async function createFavListHandler (req, res) {
-  const FavData = req.body;
+  const FavListData = req.body;
   const { _id } = req.user;
-  console.log(FavData);
+  console.log(FavListData);
   try {
-    const fav = await createNewFavList({...FavData, creator: _id});
-    return res.status(201).json(fav);
+    const favList = await createNewFavList({...FavListData, creator: _id});
+    return res.status(201).json(favList);
   } catch (error) {
     console.log('ERROR:', error);
     return res.status(501).json({ error })
+  }
+}
+
+async function createNewFavOnList(req, res) {
+
+  const { _id } = req.params;
+  const FavData = req.body;
+  console.log(FavData);
+  try {
+    const favOldList = await getSingleListFav(_id);
+    console.log("168 favOldList", favOldList);
+
+    const oldFavs = favOldList.favs;
+    console.log("awa", oldFavs);
+
+    const favNewList = favOldList.favs.push(FavData);
+    console.log("172 favNewList", favNewList);
+
+    const updatedList = await findFavListAndUpdate(_id, {favs: [...oldFavs, await createSingleFav(FavData)]});
+    console.log("175 updatedList", updatedList);
+
+    return res.status(201).json(updatedList);
+  } catch (error) {
+    console.log('ERROR:', error);
+    return res.status(501).json({error})
   }
 }
 
@@ -215,5 +240,6 @@ module.exports = {
   getAllFavsHandler,
   getSingleFavHandler,
   createFavListHandler,
+  createNewFavOnList,
   deleteFavHandler,
 }

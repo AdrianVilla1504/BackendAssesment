@@ -5,14 +5,16 @@ const {
   getAllFavsHandler,
   getSingleFavHandler,
   createFavListHandler,
+  createNewFavOnList,
   deleteFavHandler,
 } = require('./favs.controller');
 
 const router = Router();
 
 router.get('/',	isAuthenticated, getAllFavsHandler);
-router.get('/:id', isAuthenticated, getSingleFavHandler);
+router.get('/:_id', isAuthenticated, getSingleFavHandler);
 router.post('/', isAuthenticated, createFavListHandler);
+router.patch('/updateList/:_id', isAuthenticated, createNewFavOnList);
 router.delete('/:id', isAuthenticated, deleteFavHandler);
 
 module.exports = router;

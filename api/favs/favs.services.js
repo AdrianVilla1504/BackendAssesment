@@ -16,8 +16,8 @@ function createSingleFav(singleFavtoList){
   return singleFav.create(singleFavtoList);
 }
 
-function findFavListAndUpdate(_id, singlefav ){
-  return Favs.findByIdAndUpdate(_id, favList, { new: true });
+function findFavListAndUpdate(_id, favList){
+  return Favs.findByIdAndUpdate(_id, favList);
 
   }
 
