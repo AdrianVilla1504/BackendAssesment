@@ -2,8 +2,6 @@ const {
   getAllFavs,
   getSingleListFav,
   createNewFavList,
-  createSingleFav,
-  findFavListAndUpdate,
   deleteFav,
 } = require('./favs.services');
 
@@ -158,28 +156,25 @@ async function createFavListHandler (req, res) {
   }
 }
 
-async function createNewFavOnList(req, res) {
-
-  const { _id } = req.params;
-  const FavData = req.body;
-  console.log(FavData);
+async function createFavOnList(req, res) {
+  const user = await req.user;
+  const {idFavsList} = req.params;
+  const itemData = req.body;
   try {
-    const favOldList = await getSingleListFav(_id);
-    console.log("168 favOldList", favOldList);
+    const favList = await getSingleListFav(idFavsList);
 
-    const oldFavs = favOldList.favs;
-    console.log("awa", oldFavs);
-
-    const favNewList = favOldList.favs.push(FavData);
-    console.log("172 favNewList", favNewList);
-
-    const updatedList = await findFavListAndUpdate(_id, {favs: [...oldFavs, await createSingleFav(FavData)]});
-    console.log("175 updatedList", updatedList);
-
-    return res.status(201).json(updatedList);
+    if (!favList) {
+      return res.status(404).json({ error: 'Favs List not found' });
+    }
+    if (favList.creator.toString() !== user._id.toString()) {
+      return res.status(403).json({ error: 'You are unauthorized to edit this list' });
+    }
+    favList.favs.push(itemData);
+    await favList.save();
+    return res.status(201).json(favList);
   } catch (error) {
-    console.log('ERROR:', error);
-    return res.status(501).json({error})
+    console.log(error);
+    return res.status(500).json({ error });
   }
 }
 
@@ -240,6 +235,6 @@ module.exports = {
   getAllFavsHandler,
   getSingleFavHandler,
   createFavListHandler,
-  createNewFavOnList,
+  createFavOnList,
   deleteFavHandler,
 }

@@ -1,4 +1,4 @@
-const { Favs, singleFav } = require('./favs.model');
+const Favs = require('./favs.model');
 
 function getAllFavs() {
   return Favs.find({});
@@ -12,24 +12,13 @@ function createNewFavList(newFavList) {
   return Favs.create(newFavList);
 }
 
-function createSingleFav(singleFavtoList){
-  return singleFav.create(singleFavtoList);
-}
-
-function findFavListAndUpdate(_id, favList){
-  return Favs.findByIdAndUpdate(_id, favList);
-
-  }
-
 function deleteFav(id) {
   return Favs.findByIdAndRemove(id);
 }
 
 module.exports = {
   getAllFavs,
-  getSingleListFav,
   createNewFavList,
-  createSingleFav,
-  findFavListAndUpdate,
+  getSingleListFav,
   deleteFav,
 };
