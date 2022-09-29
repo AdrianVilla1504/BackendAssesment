@@ -6,7 +6,7 @@ const api = supertest(app);
 
 describe('USERS', () => {
 	test('POST Register', async () => {
-		//Everytime you make a Register change new user values.
+
 		const newUser = {
       name: 'Hugo',
 			email: 'hugo@gmail.com',
