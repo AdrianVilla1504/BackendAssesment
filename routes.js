@@ -7,6 +7,7 @@ const users = require('./api/users/index')
 const { isAuthenticated } = require('./auth/auth.service');
 
 const router = express.Router();
+router.use(express.json());
 
 router.use('/api/healthcheck', healthcheck);
 router.use('/api/favs', isAuthenticated, favs);
